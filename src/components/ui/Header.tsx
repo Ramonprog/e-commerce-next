@@ -1,9 +1,20 @@
-import { MenuIcon, ShoppingCartIcon, LogInIcon, PercentIcon, ListOrderedIcon, HomeIcon } from "lucide-react"
+'use client'
+import { MenuIcon, ShoppingCartIcon, LogInIcon, PercentIcon, ListOrderedIcon, HomeIcon, LogOutIcon } from "lucide-react"
 import { Button } from "./button"
 import { Card } from "./card"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./sheet"
+import { signIn, useSession, signOut } from 'next-auth/react'
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
+import { Separator } from "@radix-ui/react-separator"
 
 const Header = () => {
+
+    const { status, data } = useSession()
+
+    const handleLoginClick = async () => await signIn()
+    const handleLogoutClick = async () => await signOut()
+
+
     return (
         <Card className="flex items-center justify-between p-[1.875rem] ">
             <Sheet>
@@ -17,10 +28,41 @@ const Header = () => {
                         Menu
                     </SheetTitle>
                     <div className="mt-4 flex flex-col gap-2">
-                        <Button variant='outline' className="w-full justify-start gap-2">
-                            <LogInIcon size={16} />
-                            Fazer Login
-                        </Button>
+
+                        {status === 'authenticated' && data?.user && (
+                            <div className="flex flex-col">
+                                <div className="flex items-center gap-5 my-4">
+                                    <Avatar>
+                                        {data?.user?.name &&
+                                            <AvatarFallback>{data?.user?.name[0].toLocaleUpperCase()}</AvatarFallback>
+                                        }
+                                        {data?.user?.image &&
+                                            <AvatarImage className="rounded-full w-12" src={data?.user?.image} alt="Foto do usuario" />
+                                        }
+                                    </Avatar>
+                                    <div className="flex flex-col">
+                                        <p className="font-medium">{data?.user?.name}</p>
+                                        <p className="text-sm opacity-[0.4]">Boas compras!</p>
+                                    </div>
+                                </div>
+
+                                <Separator />
+                            </div>
+                        )}
+
+                        {status === 'unauthenticated' && (
+                            <Button variant='outline' className="w-full justify-start gap-2" onClick={handleLoginClick}>
+                                <LogInIcon size={16} />
+                                Fazer Login
+                            </Button>
+                        )}
+                        {status === 'authenticated' && (
+                            <Button variant='outline' className="w-full justify-start gap-2" onClick={handleLogoutClick}>
+                                <LogOutIcon size={16} />
+                                Fazer Logout
+                            </Button>
+                        )}
+
                         <Button variant='outline' className="w-full justify-start gap-2">
                             <HomeIcon size={16} />
                             Início
