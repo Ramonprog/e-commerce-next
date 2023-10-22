@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,7 +10,7 @@ datasource db {
 model Category {
   id String @id @default(uuid())
   name String
-  slug String @unique
+  slug String
   imageUrl String
   products Product[]
 }
@@ -21,16 +18,14 @@ model Category {
 model Product {
   id String @id @default(uuid())
   name String
-  slug String @unique
+  slug String
   description String
-  basePrice Decimal @db.Decimal(8,2)
-  imageUrl String
-  category Category @relation(fields: [categoryId], references: [id])
+  basePrice Decimal @db.Decimal(8, 2)
+  imageUrls String[]
   categoryId String
+  category Category @relation(fields: [categoryId], references: [id])
   discountPercentage Int @default(0)
 }
-
-//referentes ao next auth
 
 model Account {
   id                 String  @id @default(cuid())
@@ -76,4 +71,3 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
-
