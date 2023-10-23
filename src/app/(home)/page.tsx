@@ -24,10 +24,10 @@ export default async function Home() {
     }
   })
 
-  const headphone = await prismaClient.product.findMany({
+  const mouses = await prismaClient.product.findMany({
     where: {
       category: {
-        slug: 'headphones'
+        slug: 'mouses'
       }
     }
   })
@@ -69,7 +69,7 @@ export default async function Home() {
 
       <div>
         <SectionTitle>Fones</SectionTitle>
-        <ProductList products={headphone} />
+        <ProductList products={mouses} />
       </div>
     </div>
   )
