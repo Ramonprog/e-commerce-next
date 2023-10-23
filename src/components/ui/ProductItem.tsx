@@ -10,8 +10,8 @@ interface IProduct {
 
 const ProductItem = ({ product }: IProduct) => {
     return (
-        <div className="flex flex-col gap-4 max-w-[156px] relative">
-            <div className="bg-zinc-800 rounded-lg h-[170px] w-[156px] flex items-center justify-center">
+        <div className="flex flex-col gap-4 max-w-[170px] relative">
+            <div className="bg-zinc-800 rounded-lg h-[170px] w-[170px] flex items-center justify-center">
                 <Image
                     src={product.imageUrls[0]}
                     alt={`Imagem do produto ${product.name}`}
@@ -23,11 +23,11 @@ const ProductItem = ({ product }: IProduct) => {
             </div>
             <div >
                 <p className="w-full text-sm overflow-hidden whitespace-nowrap text-ellipsis">{product.name}</p>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2  overflow-hidden whitespace-nowrap ">
                     {product.discountPercentage > 0 ? (
                         <>
                             <p className="font-semibold">R$ {product.totalPrice.toFixed(2)}</p>
-                            <p className="text-xs opacity-[0.4] line-through">R$ {Number(product.basePrice).toFixed(2)}</p>
+                            <p className="text-xs opacity-[0.4] line-through text-ellipsis">R$ {Number(product.basePrice).toFixed(2)}</p>
                         </>
                     ) : (
 
